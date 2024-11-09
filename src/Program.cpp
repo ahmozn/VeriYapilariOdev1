@@ -13,11 +13,6 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-//#include <fstream>
-//#include <string>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <windows.h>
 
 // FIELDS YASAK, CHAR OLARAK TUTMAK COK DAHA MANTIKLI CHATGPTDE YOLLAR MEVCUT
 
@@ -28,39 +23,27 @@ int main() {
 
     int satir=0,satir2=0,sutun=0,secim=0;
 
-    //dosya okuma icin
-    IS isDna;
-    isDna=new_inputstruct("Dna.txt");
-    IS isOto;
-    isOto=new_inputstruct("Islemler.txt");
+    ifstream fileDna("Dna.txt");
+    string lineDna;
 
+    ifstream fileIslem("Islemler.txt");
+    string lineIslem;
 
-    //okunacak Dna.txt dosyasinin acilirken hata kontrolu
-    if(isDna==NULL)
-    {perror("Dna.txt"); exit(1);}
-    
-    //okunacak Islemler.txt dosyasinin acilirken hata kontrolu
-    if(isOto==NULL)
-    {perror("Islemler.txt"); exit(1);}
-
-
-    ifstream file("Dna.txt");
-    string line;
     //her bir kromozom ve genin eklendigi kisim
-    while(getline(file,line)){
-        istringstream lineStream(line);
+    while(getline(fileDna,lineDna)){
+        istringstream lineStreamDna(lineDna);
         kromozomlar->kromozomEkle(satir); //kromozom ekleme
         //gen ekleme
-        char ch;
+        char gen;
         int i=0;
-        while(lineStream>>ch){
-            kromozomlar->genEkle(satir,i,ch);
+        while(lineStreamDna>>gen){
+            kromozomlar->genEkle(satir,i,gen);
             i++; 
         }
         satir++;
     }
 
-    char* komut;
+    char komut;
     satir=0;
     system("CLS");
     do
@@ -96,14 +79,17 @@ int main() {
         case 3:
             cout<<"Otomatik Islemler secildi."<<endl;
             //her bir işlemin okunup işlendiği kısım
-            while(get_line(isOto)>=0)
+            while(getline(fileIslem,lineIslem))
             {
-                komut=isOto->fields[0]; //yapılacak işlemin kaydı
+                string s;
+                istringstream lineStreamIslem(lineIslem);
+                
+                lineStreamIslem>>komut;
+                //komut; //yapılacak işlemin kaydı
 
                 //C okununca Caprazlama
-                if(strcmp(komut,"C")==0) {
-                    satir=atoi(isOto->fields[1]);
-                    satir2=atoi(isOto->fields[2]);
+                if(komut=='C') {
+                    lineStreamIslem>>satir>>satir2;
                     kromozomlar->kromozomEkle(kromozomlar->toplamKromozom());
                     kromozomlar->kromozomEkle(kromozomlar->toplamKromozom());
                     if(!kromozomlar->caprazla(satir,satir2)){
@@ -112,14 +98,16 @@ int main() {
                     }
                 }
                 //M okununca Mutasyon
-                if(strcmp(komut,"M")==0) {
-                    satir=atoi(isOto->fields[1]);
-                    sutun=atoi(isOto->fields[2]);
+                else if(komut=='M') {
+                    lineStreamIslem>>satir>>sutun;
                     if(kromozomlar->genMutasyon(satir,sutun)){
                         kromozomlar->g_printList(satir);
                     }else{
                         cout<<"Mutasyon BASARISIZ!"<<endl;
                     }
+                }
+                else{
+                    cout<<"Bilinmeyen komut"<<komut<<endl;
                 }
             }
             break;
@@ -148,7 +136,6 @@ int main() {
     cout<<"Bellek serbest birakiliyor..."<<endl;
     cout<<"..."<<endl;
     kromozomlar->~DLList();
-    jettison_inputstruct(isDna);
     cout<<"Program basarili sekilde sonlandi."<<endl;
     return 0;
 }

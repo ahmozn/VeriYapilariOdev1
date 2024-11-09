@@ -8,5 +8,5 @@
 */
 #include "GenNode.hpp"
 
-GenNode::GenNode(int index, char* deger): index(index), data(deger), next(nullptr), prev(nullptr){}
+GenNode::GenNode(int index, char deger): index(index), data(deger), next(nullptr), prev(nullptr){}
 GenNode::~GenNode(){}

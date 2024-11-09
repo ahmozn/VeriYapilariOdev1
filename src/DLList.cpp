@@ -99,7 +99,7 @@ GenNode *DLList::genBul(int sutun)
 // calismiyor, g_printlist bozuk gibi
 void DLList::ekranaYaz()
 {
-    char* ilkGen;
+    char ilkGen;
     KromozomNode *k_temp = kromozomBul(0);
     if (!k_temp)
     {
@@ -127,7 +127,7 @@ void DLList::ekranaYaz()
         
         for(int i=g_temp->index;i>=0;i--)
         {
-            if(g_temp->data[0]<ilkGen[0]){
+            if(g_temp->data<ilkGen){
                 std::cout<<g_temp->data<<" ";
                 break;
             }
@@ -192,7 +192,7 @@ void DLList::sonkromozomSil(){
     return;
 }
 
-bool DLList::genEkle(int satir, int index, char *deger)
+bool DLList::genEkle(int satir, int index, char deger)
 {
     KromozomNode *k_temp = kromozomBul(satir);
     if (!k_temp)
@@ -201,7 +201,7 @@ bool DLList::genEkle(int satir, int index, char *deger)
         return false;
     }
 
-    GenNode *newNode = new GenNode(index, strdup(deger));
+    GenNode *newNode = new GenNode(index, deger);
 
     if (!k_temp->genDLL->g_dll_head)
     {
@@ -251,7 +251,7 @@ bool DLList::caprazla(int satir1, int satir2)
     int boyut2 = toplamGen(satir2);
 
     for (int i = 0; i < boyut1 / 2; i++) //ilk kromozomun ilk yarısını 1. yeni kromozoma ekleme
-    {genEkle(toplamKromozom() - 2, i, strdup(k1_temp->genDLL->genBul(i)->data));} 
+    {genEkle(toplamKromozom() - 2, i, k1_temp->genDLL->genBul(i)->data);} 
 
     //ilk kromozomun cift olma durumu
     if (boyut1 % 2 == 0)    
@@ -259,29 +259,29 @@ bool DLList::caprazla(int satir1, int satir2)
         //ilk kromozomun ikinci yarısını 2. yeni kromozoma ekleme 
         int ix = 0;
         for (int j = boyut1 / 2; j < boyut1; j++) 
-        {genEkle(toplamKromozom() - 1, ix, strdup(k1_temp->genDLL->genBul(j)->data)); ix++;} 
+        {genEkle(toplamKromozom() - 1, ix, k1_temp->genDLL->genBul(j)->data); ix++;} 
 
         //ikinci kromozomun cift olma durumu
         if (boyut2 % 2 == 0)
         {
             //ikinci kromozomun ikinci yarısını 1. yeni kromozoma ekleme
             for (int i = boyut2 / 2; i < boyut2; i++)   
-            {genEkle(toplamKromozom() - 2, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 2, i, k2_temp->genDLL->genBul(i)->data);}
             
             //ikinci kromozomun ilk yarısını 2. yeni kromozoma ekleme
             for(int i=0;i<boyut2/2;i++) 
-            {genEkle(toplamKromozom() - 1, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 1, i, k2_temp->genDLL->genBul(i)->data);}
         }
         //ikinci kromozomun tek olma durumu
         else    
         {
             //ikinci kromozomun ikinci yarısını 1. yeni kromozoma ekleme
             for (int i = boyut2 / 2 + 2; i < boyut2+1; i++)
-            {genEkle(toplamKromozom() - 2, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 2, i, k2_temp->genDLL->genBul(i)->data);}
 
             //ikinci kromozomun ilk yarısını 2. yeni kromozoma ekleme
             for(int i=0;i<boyut2/2;i++)
-            {genEkle(toplamKromozom() - 1, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 1, i, k2_temp->genDLL->genBul(i)->data);}
         }
         return true;
     }
@@ -291,29 +291,29 @@ bool DLList::caprazla(int satir1, int satir2)
         //ilk kromozomun ikinci yarısını 2. yeni kromozoma ekleme 
         int ix = 0;
         for (int j = boyut1 / 2 + 1; j < boyut1; j++)
-        {genEkle(toplamKromozom() - 1, ix, strdup(k1_temp->genDLL->genBul(j)->data)); ix++;}
+        {genEkle(toplamKromozom() - 1, ix, k1_temp->genDLL->genBul(j)->data); ix++;}
         
         //ikinci kromozomun cift olma durumu
         if (boyut2 % 2 == 0)
         {
             //ikinci kromozomun ikinci yarısını 1. yeni kromozoma ekleme
             for (int i = boyut2 / 2; i < boyut2; i++)
-            {genEkle(toplamKromozom() - 2, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 2, i, k2_temp->genDLL->genBul(i)->data);}
 
             //ikinci kromozomun ilk yarısını 2. yeni kromozoma ekleme
             for(int i=0;i<boyut2/2;i++)
-            {genEkle(toplamKromozom() - 1, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 1, i, k2_temp->genDLL->genBul(i)->data);}
         }
         //ikinci kromozomun tek olma durumu
         else
         {
             //ikinci kromozomun ikinci yarısını 1. yeni kromozoma ekleme
             for (int i = boyut2 / 2 + 1; i < boyut2; i++)
-            {genEkle(toplamKromozom() - 2, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 2, i, k2_temp->genDLL->genBul(i)->data);}
 
             //ikinci kromozomun ilk yarısını 2. yeni kromozoma ekleme
             for(int i=0;i<boyut2/2;i++)
-            {genEkle(toplamKromozom() - 1, i, strdup(k2_temp->genDLL->genBul(i)->data));}
+            {genEkle(toplamKromozom() - 1, i, k2_temp->genDLL->genBul(i)->data);}
         }
         return true;
     }
@@ -343,7 +343,7 @@ bool DLList::genMutasyon(int satir, int sutun)
     {
         if (g_temp->index == sutun)
         {
-            g_temp->data = strdup("X");
+            g_temp->data = 'X';
             return true;
         }
         g_temp = g_temp->next;

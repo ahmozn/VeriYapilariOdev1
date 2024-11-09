@@ -29,7 +29,7 @@ class DLList{
         int toplamGen(int index_k);
         void kromozomEkle(int index_k);                     //kromozom ekleme
         void sonkromozomSil();                              //son kromozom sil
-        bool genEkle(int satir, int index_g, char* deger);  //gen ekleme 
+        bool genEkle(int satir, int index_g, char deger);  //gen ekleme 
         bool caprazla(int satir1, int satir2);              //caprazlama
         bool genMutasyon(int satir, int sutun);             //mutasyona ugratma
         void ekranaYaz();                                   //ekrana yazdirma

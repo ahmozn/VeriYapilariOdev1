@@ -13,11 +13,11 @@
 class GenNode{
     public:
         int index;  //sutun
-        char* data;  //veri
+        char data;  //veri
         GenNode* next; //sonraki dugume pointer
         GenNode* prev; //onceki dugume pointer
 
-        GenNode(int index,char* deger); //constructor
+        GenNode(int index,char deger); //constructor
         ~GenNode();                    //destructor
 };
 
