@@ -8,7 +8,6 @@
 * @author       Ahmet Özhan ÖZEN   ozhan.ozen@ogr.sakarya.edu.tr
 */
 #include "DLList.hpp"
-#include "fields.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
