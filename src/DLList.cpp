@@ -10,8 +10,10 @@
 #include <iostream>
 #include "DLList.hpp"
 
+//Constructor
 DLList::DLList() : k_dll_head(nullptr), g_dll_head(nullptr) {}
 
+//lsitedeki toplam kromozom sayısını döndürür
 int DLList::toplamKromozom()
 {
     int toplam = 0;
@@ -29,6 +31,7 @@ int DLList::toplamKromozom()
     return toplam;
 }
 
+//istenen kromozomdaki toplam gen sayısını döndürür
 int DLList::toplamGen(int satir)
 {
     int toplam = 0;
@@ -47,6 +50,7 @@ int DLList::toplamGen(int satir)
     return toplam;
 }
 
+//listeyi dolaşarak istenen indexteki kromozomu getirir
 KromozomNode *DLList::kromozomBul(int satir)
 {
     KromozomNode *temp = k_dll_head;
@@ -60,6 +64,7 @@ KromozomNode *DLList::kromozomBul(int satir)
     return nullptr; // kromozom bulunamadi
 }
 
+//istenen kromozomdaki istenen indexteki geni bulup döndürür
 GenNode *DLList::genBul(int satir, int sutun)
 {
     KromozomNode *k_temp = kromozomBul(satir);
@@ -81,6 +86,7 @@ GenNode *DLList::genBul(int satir, int sutun)
     return g_temp;
 }
 
+//ilgili kromozomdaki istenen indexteki geni bulup döndürür
 GenNode *DLList::genBul(int sutun)
 {
     GenNode *g_temp = g_dll_head;
@@ -96,63 +102,16 @@ GenNode *DLList::genBul(int sutun)
     return g_temp;
 }
 
-// calismiyor, g_printlist bozuk gibi
-void DLList::ekranaYaz()
-{
-    char ilkGen;
-    KromozomNode *k_temp = kromozomBul(0);
-    if (!k_temp)
-    {
-        std::cout << "Kromozom Bulunamadi-ekranaYaz()" << std::endl;
-        return;
-    }
-    
-    GenNode*g_temp=k_temp->genDLL->g_dll_head;
-
-    while (k_temp)
-    {
-        g_temp=k_temp->genDLL->g_dll_head;
-        if(!g_temp){
-            std::cout << "Gen Listesi Bos-ekranaYaz()" << std::endl;
-            return;
-        }
-        while(g_temp->next!=nullptr){
-            g_temp=g_temp->next;
-        }
-        //std::cout<<"Kromozom: "<<k_temp->index<<std::endl;
-        ilkGen=k_temp->genDLL->g_dll_head->data;
-        //std::cout<<"Kromozomdaki ilk Gen: "<<ilkGen<<std::endl;
-        //std::cout<<"g_temp index: "<<g_temp->index<<std::endl;
-
-        
-        for(int i=g_temp->index;i>=0;i--)
-        {
-            if(g_temp->data<ilkGen){
-                std::cout<<g_temp->data<<" ";
-                break;
-            }
-            
-            if(g_temp->prev!=nullptr){
-                g_temp=g_temp->prev;
-            }
-        }
-
-        if(g_temp->index==0){
-            std::cout<<g_temp->data<<" ";
-                
-        }
-        k_temp = k_temp->next;
-    }
-    std::cout<<std::endl;
-}
-
+//listeye kromozom ekler
 void DLList::kromozomEkle(int index)
 {
     KromozomNode *newNode = new KromozomNode(new DLList(), index);
+    //liste boşsa ilk eleman olarak atama
     if (!k_dll_head)
     {
         k_dll_head = newNode;
     }
+    //liste boş değilse en sona ekleme
     else
     {
         KromozomNode *temp = k_dll_head;
@@ -165,14 +124,17 @@ void DLList::kromozomEkle(int index)
     }
 }
 
+//liste sonundaki kromozomu siler, çaprazlama başarısız olduğunda kullanışlıdır
 void DLList::sonkromozomSil(){
     KromozomNode* k_temp=kromozomBul(0);
-    if (k_temp == nullptr) { // Liste boşsa yapılacak işlem yok
+
+    // Liste boşsa yapılacak işlem yok
+    if (k_temp == nullptr) { 
         std::cout<<"liste bos-sonkromozomSil()"<<std::endl;
         return;
     }
 
-    // Tek bir düğüm varsa
+    //Tek düğüm varsa
     if (k_temp->next == nullptr) {
         delete k_temp;
         k_temp = nullptr;
@@ -180,18 +142,17 @@ void DLList::sonkromozomSil(){
         return;
     }
 
-    // Son düğüme git
+    //Son düğüme git
     KromozomNode* current = k_temp;
     while (current->next!=nullptr) {
         current = current->next;
     }
-    // current şu anda son düğümü işaret ediyor
     current->prev->next = nullptr; // Son düğümü listeden çıkar
-    delete current; // Bellekten serbest bırak
-    std::cout<<"son dugum silindi"<<std::endl;
+    delete current;                // Bellekten serbest bırak
     return;
 }
 
+//istenen kromozoma istenen indexe sahip gen ekler
 bool DLList::genEkle(int satir, int index, char deger)
 {
     KromozomNode *k_temp = kromozomBul(satir);
@@ -203,10 +164,12 @@ bool DLList::genEkle(int satir, int index, char deger)
 
     GenNode *newNode = new GenNode(index, deger);
 
+    //genDLL boş ise ilk eleman olarak atanır
     if (!k_temp->genDLL->g_dll_head)
     {
         k_temp->genDLL->g_dll_head = newNode;
     }
+    //genDLL içinde eleman varsa en sona giderek ekleme yapar
     else
     {
         GenNode *temp = k_temp->genDLL->g_dll_head;
@@ -215,13 +178,13 @@ bool DLList::genEkle(int satir, int index, char deger)
         {
             temp = temp->next;
         }
-
         temp->next = newNode;
         newNode->prev = temp;
     }
     return true;
 }
 
+//çaprazlama işlemi
 bool DLList::caprazla(int satir1, int satir2)
 {
     KromozomNode *k1_temp = kromozomBul(satir1);
@@ -247,12 +210,18 @@ bool DLList::caprazla(int satir1, int satir2)
         return false;
     }
 
+    //yeni kromozomları kaydedebilmek için iki yeni kromozom ekleniyor
+    kromozomEkle(toplamKromozom());
+    kromozomEkle(toplamKromozom());
+
     int boyut1 = toplamGen(satir1);
     int boyut2 = toplamGen(satir2);
 
-    for (int i = 0; i < boyut1 / 2; i++) //ilk kromozomun ilk yarısını 1. yeni kromozoma ekleme
+    //ilk kromozomun ilk yarısını 1. yeni kromozoma ekleme
+    for (int i = 0; i < boyut1 / 2; i++) 
     {genEkle(toplamKromozom() - 2, i, k1_temp->genDLL->genBul(i)->data);} 
 
+    
     //ilk kromozomun cift olma durumu
     if (boyut1 % 2 == 0)    
     {
@@ -317,7 +286,11 @@ bool DLList::caprazla(int satir1, int satir2)
         }
         return true;
     }
+    
     std::cout << "bir hata meydana geldi-caprazla()" << std::endl;
+    //caprazlama başarılı olamadığından son işlemleri geri alıyoruz
+    sonkromozomSil();
+    sonkromozomSil();
     return false;
 }
 
@@ -338,6 +311,8 @@ bool DLList::genMutasyon(int satir, int sutun)
         return false;
     }
 
+    std::cout<<"Mutasyon yapilacak gen : "; g_printList(k_temp->index);
+
     //ilgili geni bulana dek kromozomun gen listesinde gezer, bulunca geni X yapar
     while (g_temp)
     {
@@ -352,7 +327,56 @@ bool DLList::genMutasyon(int satir, int sutun)
     return false;
 }
 
-// Printer, kromozomdaki genleri yazdirir(kontrol icin)
+//ekrana yaz işlemi
+void DLList::ekranaYaz()
+{
+    char ilkGen;
+    KromozomNode *k_temp = kromozomBul(0);
+    if (!k_temp)
+    {
+        std::cout << "Kromozom Bulunamadi-ekranaYaz()" << std::endl;
+        return;
+    }
+    
+    GenNode*g_temp=k_temp->genDLL->g_dll_head;
+
+    while (k_temp)
+    {
+        g_temp=k_temp->genDLL->g_dll_head;
+        if(!g_temp){
+            std::cout << "Gen Listesi Bos-ekranaYaz()" << std::endl;
+            return;
+        }
+        //kromozomdaki genlerin en sonuna gider
+        while(g_temp->next!=nullptr){
+            g_temp=g_temp->next;
+        }
+
+        ilkGen=k_temp->genDLL->g_dll_head->data; //kromozomdaki ilk geni saklar
+
+        //sondan geriye karşılaştırma
+        for(int i=g_temp->index;i>=0;i--)
+        {
+            //ascii değeri ilkGen'den küçükse yazdır ve döngüden çık
+            if(g_temp->data<ilkGen){
+                std::cout<<g_temp->data<<" ";
+                break;
+            }
+            //bir önceki düğüme geç
+            if(g_temp->prev!=nullptr){
+                g_temp=g_temp->prev;
+            }
+        }
+        //ilkGen'in kromozomdaki tüm genlerden küçük olma durumu
+        if(g_temp->index==0){
+            std::cout<<g_temp->data<<" ";
+        }
+        k_temp = k_temp->next;
+    }
+    std::cout<<std::endl;
+}
+
+//Printer, kromozomu yazdirir
 bool DLList::g_printList(int satir)
 {
     KromozomNode *k_temp = kromozomBul(satir);
@@ -376,31 +400,9 @@ bool DLList::g_printList(int satir)
     return true;
 }
 
-// BU KULLANILMAYACAK PROGRAMDA
-bool DLList::genYazdir(int satir, int index)
-{
-    KromozomNode *k_temp = kromozomBul(satir);
-    if (!k_temp)
-    {
-        std::cout << "Kromozom Bulunamadi-genYazdir()" << std::endl;
-        return false;
-    }
-    GenNode *g_temp = k_temp->genDLL->g_dll_head;
-    if (!g_temp)
-    {
-        std::cout << "Gen Bulunamadi-genYazdir()" << std::endl;
-        return false;
-    }
-    while (g_temp->index != index)
-    {
-        g_temp = g_temp->next;
-    }
-    std::cout << "ILGILI GEN ADRESI VE DEGERI: " << g_temp << " " << g_temp->data << std::endl;
-    return true;
-}
-
-
-//Destructor, bastan sona tum dugumleri siliyor
+/*Destructor, kromozomlardaki genlerden başlayarak önce genleri sonra ilgili kromozomu siler, 
+* liste bitene kadar tekrar eder
+*/
 DLList::~DLList(){
     KromozomNode* k_current=kromozomBul(0);
     KromozomNode* k_nextNode;

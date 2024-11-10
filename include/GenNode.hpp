@@ -12,8 +12,8 @@
 
 class GenNode{
     public:
-        int index;  //sutun
-        char data;  //veri
+        int index;     //gen indexi
+        char data;     //veri
         GenNode* next; //sonraki dugume pointer
         GenNode* prev; //onceki dugume pointer
 

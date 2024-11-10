@@ -13,8 +13,6 @@
 #include <sstream>
 #include <string>
 
-// FIELDS YASAK, CHAR OLARAK TUTMAK COK DAHA MANTIKLI CHATGPTDE YOLLAR MEVCUT
-
 using namespace std;
 
 int main() {
@@ -32,6 +30,7 @@ int main() {
     while(getline(fileDna,lineDna)){
         istringstream lineStreamDna(lineDna);
         kromozomlar->kromozomEkle(satir); //kromozom ekleme
+        
         //gen ekleme
         char gen;
         int i=0;
@@ -58,18 +57,21 @@ int main() {
         case 1:
             cout<<"Caprazlama secildi"<<endl;
             cout<<"Caprazlanmasi icin iki kromozom seciniz(ornek: 1 5): "; cin>>satir>>satir2;
-            kromozomlar->kromozomEkle(kromozomlar->toplamKromozom());
-            kromozomlar->kromozomEkle(kromozomlar->toplamKromozom());
+
             if(!kromozomlar->caprazla(satir,satir2)){
-                kromozomlar->sonkromozomSil();
-                kromozomlar->sonkromozomSil();
+                cout<<"Caprazlama BASARISIZ!"<<endl;
+            }else{
+                cout<<"Caprazlama sonucu olusan kromozomlar: "<<endl;
+                kromozomlar->g_printList(kromozomlar->toplamKromozom()-2);
+                kromozomlar->g_printList(kromozomlar->toplamKromozom()-1);
+                cout<<"________________"<<endl;
             }
             break;
         case 2:
             cout<<"Mutasyon secildi"<<endl;
             cout<<"Kromozom ve Gen indexi giriniz(ornek: 0 2): "; cin>>satir>>sutun;
-            //kromozomlar->genMutasyon(satir,sutun);
             if(kromozomlar->genMutasyon(satir,sutun)){
+                cout<<"Mutasyon gerceklesti   : ";
                 kromozomlar->g_printList(satir);
             }else{
                 cout<<"Mutasyon BASARISIZ!"<<endl;
@@ -80,35 +82,37 @@ int main() {
             //her bir işlemin okunup işlendiği kısım
             while(getline(fileIslem,lineIslem))
             {
-                string s;
                 istringstream lineStreamIslem(lineIslem);
-                
-                lineStreamIslem>>komut;
-                //komut; //yapılacak işlemin kaydı
+                lineStreamIslem>>komut; //yapılacak işlemin kaydı
 
                 //C okununca Caprazlama
                 if(komut=='C') {
                     lineStreamIslem>>satir>>satir2;
-                    kromozomlar->kromozomEkle(kromozomlar->toplamKromozom());
-                    kromozomlar->kromozomEkle(kromozomlar->toplamKromozom());
                     if(!kromozomlar->caprazla(satir,satir2)){
-                        kromozomlar->sonkromozomSil();
-                        kromozomlar->sonkromozomSil();
+                        cout<<"Caprazlama BASARISIZ!-otomatik"<<endl;
+                    }else{
+                        cout<<"Caprazlama sonucu olusan kromozomlar: "<<endl;
+                        kromozomlar->g_printList(kromozomlar->toplamKromozom()-2);
+                        kromozomlar->g_printList(kromozomlar->toplamKromozom()-1);
+                        cout<<"________________"<<endl;
                     }
                 }
                 //M okununca Mutasyon
                 else if(komut=='M') {
                     lineStreamIslem>>satir>>sutun;
                     if(kromozomlar->genMutasyon(satir,sutun)){
+                        cout<<"Mutasyon gerceklesti   : ";
                         kromozomlar->g_printList(satir);
                     }else{
-                        cout<<"Mutasyon BASARISIZ!"<<endl;
+                        cout<<"Mutasyon BASARISIZ!-otomatik"<<endl;
                     }
                 }
+                //ikisi de değilse geri bildirim
                 else{
-                    cout<<"Bilinmeyen komut"<<komut<<endl;
+                    cout<<"Bilinmeyen komut: "<<komut<<endl;
                 }
             }
+            cout<<"Otomatik Islemler tamamlandi."<<endl;
             break;
         case 4:
             cout<<"Ekrana Yaz secildi."<<endl;
@@ -126,10 +130,6 @@ int main() {
     } while (secim!=5);
 
     cout<<"\nToplam Kromozom: "<<kromozomlar->toplamKromozom()<<endl;
-    for(int j=0; j<kromozomlar->toplamKromozom();j++){
-        cout<<"Kromozom: "<<kromozomlar->kromozomBul(j)->index<<", Toplam Gen: "<<kromozomlar->toplamGen(j)<<"| ";
-        kromozomlar->g_printList(j);
-    }
 
     //bellegi serbest birak
     cout<<"Bellek serbest birakiliyor..."<<endl;
