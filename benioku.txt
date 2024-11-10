@@ -1,35 +1,8 @@
-Her bir seçenek için fonksiyon tanımlanabilir, sayılar parametre olarak verilir ve böylece işlemler yürütülür.
-Bağlı listeler kullanılacak(double linked list vs.)
-Dna.txt dosyası okunacak, kromozomları içeren dosya bu. Her bir kromozom bu bağlı listede tutulacak
+Makefile içeriği, projeyi derleyip çalıştıracak biçimde düzenlenmiştir. mingw32-make çalıştırmadan önce Dna.txt ve Islemler.txt dosyalarının ana dizinde olması gerekiyor.
 
-
-1-ÇAPRAZLAMA :
-odev1.pdf içeriğine bak
-
-
-2-MUTASYON :
-satır sütun no al ilgili elemanı X ile değiştir.
-satır da sütun da 0'dan başlar
-
-
-3-OTOMATIK ISLEMLER :
-Islemler.txt okunup sırayla işlemler yapılıp uygulanacak, en son "işlem tamamlandı" mesajı yazdırılacak
-C--> ÇAPRAZLAMA
-M--> MUTASYON
-
-
-4-EKRANA YAZDIR :
-satırın ilk elemanı ile sondaki elemanı karşılaştırılacak, eğer ilk elemanın değeri daha küçükse sondaki elemanın bi öncesine gidilecek. hiç kalmadıysa ilk eleman yazılacak
-
-küçük bulunursa o yazdırılacak
-
-A B C D E F --> A
-D E B F	--> B
-
-
-5-ÇIKIŞ
-çöpleri temizleyip çık
-exit();
+Proje çalışması için
+	-Dna.txt ve Islemler.txt ana dizinde bulunmalı,
+	-Proje dizininde mingw32-make komutu çalıştırılmalı.
 
 
 
