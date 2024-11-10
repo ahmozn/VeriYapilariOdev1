@@ -17,6 +17,3 @@ lib/GenNode.o: ./src/GenNode.cpp
 
 calistir:
 	./bin/Program
-
-clean:
-	rm -f lib/*.o
