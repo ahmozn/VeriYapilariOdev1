@@ -461,7 +461,7 @@ bool DLList::g_printList(int satir)
         std::cout << "Gen Bulunamadi-g_printList()" << std::endl;
         return false;
     }
-    std::cout<<k_temp->index<<"| ";
+    std::cout<<"K:"<<k_temp->index<<"| ";
     while (g_temp)
     {
         output+=g_temp->data;
