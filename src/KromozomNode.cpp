@@ -9,5 +9,5 @@
 #include "KromozomNode.hpp"
 #include "DLList.hpp"
 
-KromozomNode::KromozomNode(DLList* genDll,int index): genDLL(new DLList()),index(index), next(nullptr), prev(nullptr){}
+KromozomNode::KromozomNode(DLList* genDll,int index): genDLL(genDll),index(index), next(nullptr), prev(nullptr){}
 KromozomNode::~KromozomNode(){}

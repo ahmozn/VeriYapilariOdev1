@@ -1,7 +1,7 @@
 /**
 * @file         Program.cpp
 * @description  Verilen Dna.txt dosyasının içeriğini tarar, çift yönlü listelerde saklar. Bu veriler
-*               ile Çaprazlama, Mutasyon, Otomatik İşlemler, Ekrana Yazdrıma gibi işlemler yapar.
+*               ile Çaprazlama, Mutasyon, Otomatik İşlemler, Ekrana Yazdırma gibi işlemler yapar.
 * @course       2. Öğretim A grubu
 * @assignment   2024-2025 Güz, 1. Ödev
 * @date         01.11.2024
@@ -12,6 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -20,30 +21,40 @@ int main() {
 
     int satir=0,satir2=0,sutun=0,secim=0;
 
-    ifstream fileDna("Dna.txt");
-    string lineDna;
+    ifstream fileDna("Dna.txt");  //Dna.txt okumak için açıyoruz
 
-    ifstream fileIslem("Islemler.txt");
-    string lineIslem;
+    system("CLS");
+    
+    auto start=chrono::high_resolution_clock::now(); //okuma süresi hesaplayici
+    cout<<"Dna.txt okunuyor..."<<endl;
 
-    //her bir kromozom ve genin eklendigi kisim
-    while(getline(fileDna,lineDna)){
-        istringstream lineStreamDna(lineDna);
-        kromozomlar->kromozomEkle(satir); //kromozom ekleme
-        
-        //gen ekleme
-        char gen;
-        int i=0;
-        while(lineStreamDna>>gen){
-            kromozomlar->genEkle(satir,i,gen);
-            i++; 
+    int i=0;
+    char gen;
+    bool satirsonu=false;
+    kromozomlar->kromozomEkle(satir);
+    while(fileDna.get(gen)){
+        if(gen=='\n'){
+            satirsonu=true;
+            i=0;
+            satir++;
+            kromozomlar->kromozomEkle(satir);
         }
-        satir++;
+        else if(gen!=' '){
+            kromozomlar->genEkle(i,gen);
+            i++;
+        }
+        if(satirsonu){
+            satirsonu=false;
+        }
     }
+
+    auto end=chrono::high_resolution_clock::now();
+    auto duration=chrono::duration_cast<chrono::milliseconds>(end-start);
+    cout<<duration.count()<<" ms"<<endl; //okuma işlemi ne kadar sürdü
+    fileDna.close();    //Dna.txt kapatıldı
 
     char komut;
     satir=0;
-    system("CLS");
     do
     {
         cout<<"1- Caprazlama"<<endl;
@@ -79,44 +90,13 @@ int main() {
             break;
         case 3:
             cout<<"Otomatik Islemler secildi."<<endl;
-            //her bir işlemin okunup işlendiği kısım
-            while(getline(fileIslem,lineIslem))
-            {
-                istringstream lineStreamIslem(lineIslem);
-                lineStreamIslem>>komut; //yapılacak işlemin kaydı
-
-                //C okununca Caprazlama
-                if(komut=='C') {
-                    lineStreamIslem>>satir>>satir2;
-                    if(!kromozomlar->caprazla(satir,satir2)){
-                        cout<<"Caprazlama BASARISIZ!-otomatik"<<endl;
-                    }else{
-                        cout<<"Caprazlama sonucu olusan kromozomlar: "<<endl;
-                        kromozomlar->g_printList(kromozomlar->toplamKromozom()-2);
-                        kromozomlar->g_printList(kromozomlar->toplamKromozom()-1);
-                        cout<<"________________"<<endl;
-                    }
-                }
-                //M okununca Mutasyon
-                else if(komut=='M') {
-                    lineStreamIslem>>satir>>sutun;
-                    if(kromozomlar->genMutasyon(satir,sutun)){
-                        cout<<"Mutasyon gerceklesti   : ";
-                        kromozomlar->g_printList(satir);
-                    }else{
-                        cout<<"Mutasyon BASARISIZ!-otomatik"<<endl;
-                    }
-                }
-                //ikisi de değilse geri bildirim
-                else{
-                    cout<<"Bilinmeyen komut: "<<komut<<endl;
-                }
-            }
+            kromozomlar->otomatikIslemler();
             cout<<"Otomatik Islemler tamamlandi."<<endl;
             break;
         case 4:
             cout<<"Ekrana Yaz secildi."<<endl;
             kromozomlar->ekranaYaz();
+            cout<<endl;
             break;
         case 5:
             cout<<"Cikis secildi."<<endl;
@@ -130,7 +110,7 @@ int main() {
     } while (secim!=5);
 
     cout<<"\nToplam Kromozom: "<<kromozomlar->toplamKromozom()<<endl;
-
+    kromozomlar->g_printList(200);
     //bellegi serbest birak
     cout<<"Bellek serbest birakiliyor..."<<endl;
     cout<<"..."<<endl;
