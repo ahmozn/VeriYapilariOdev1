@@ -110,7 +110,7 @@ int main() {
     } while (secim!=5);
 
     cout<<"\nToplam Kromozom: "<<kromozomlar->toplamKromozom()<<endl;
-    kromozomlar->g_printList(200);
+    
     //bellegi serbest birak
     cout<<"Bellek serbest birakiliyor..."<<endl;
     cout<<"..."<<endl;
