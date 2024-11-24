@@ -3,12 +3,12 @@ Flat profile:
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
  time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 45.45      0.10     0.10                             _fu33___ZSt4cout
- 22.73      0.15     0.05                             GenNode::GenNode(int, char)
- 13.64      0.18     0.03                             _fu0___ZSt4cout
-  9.09      0.20     0.02                             DLList::kromozomBul(KromozomNode*, int, int, int)
-  4.55      0.21     0.01                             DLList::~DLList()
-  4.55      0.22     0.01                             std::basic_ios<char, std::char_traits<char> >::operator bool() const
+ 36.36      0.04     0.04                             _fu33___ZSt4cout
+ 18.18      0.06     0.02                             DLList::genEkle(int, char)
+ 18.18      0.08     0.02                             _fu0___ZSt4cout
+  9.09      0.09     0.01                             DLList::~DLList()
+  9.09      0.10     0.01                             GenNode::GenNode(int, char)
+  9.09      0.11     0.01                             std::basic_ios<char, std::char_traits<char> >::operator bool() const
 
  %         the percentage of the total running time of the
 time       program used by this function.
@@ -46,26 +46,26 @@ notice and this notice are preserved.
 		     Call graph (explanation follows)
 
 
-granularity: each sample hit covers 4 byte(s) for 4.55% of 0.22 seconds
+granularity: each sample hit covers 4 byte(s) for 9.09% of 0.11 seconds
 
 index % time    self  children    called     name
                                                  <spontaneous>
-[1]     45.5    0.10    0.00                 _fu33___ZSt4cout [1]
+[1]     36.4    0.04    0.00                 _fu33___ZSt4cout [1]
 -----------------------------------------------
                                                  <spontaneous>
-[2]     22.7    0.05    0.00                 GenNode::GenNode(int, char) [2]
+[2]     18.2    0.02    0.00                 DLList::genEkle(int, char) [2]
 -----------------------------------------------
                                                  <spontaneous>
-[3]     13.6    0.03    0.00                 _fu0___ZSt4cout [3]
+[3]     18.2    0.02    0.00                 _fu0___ZSt4cout [3]
 -----------------------------------------------
                                                  <spontaneous>
-[4]      9.1    0.02    0.00                 DLList::kromozomBul(KromozomNode*, int, int, int) [4]
+[4]      9.1    0.01    0.00                 DLList::~DLList() [4]
 -----------------------------------------------
                                                  <spontaneous>
-[5]      4.5    0.01    0.00                 DLList::~DLList() [5]
+[5]      9.1    0.01    0.00                 GenNode::GenNode(int, char) [5]
 -----------------------------------------------
                                                  <spontaneous>
-[6]      4.5    0.01    0.00                 std::basic_ios<char, std::char_traits<char> >::operator bool() const [6]
+[6]      9.1    0.01    0.00                 std::basic_ios<char, std::char_traits<char> >::operator bool() const [6]
 -----------------------------------------------
 
  This table describes the call tree of the program, and was sorted by
@@ -158,5 +158,5 @@ notice and this notice are preserved.
 
 Index by function name
 
-   [4] DLList::kromozomBul(KromozomNode*, int, int, int) [2] GenNode::GenNode(int, char) [3] _fu0___ZSt4cout
-   [5] DLList::~DLList()       [6] std::basic_ios<char, std::char_traits<char> >::operator bool() const [1] _fu33___ZSt4cout
+   [2] DLList::genEkle(int, char) [5] GenNode::GenNode(int, char) [3] _fu0___ZSt4cout
+   [4] DLList::~DLList()       [6] std::basic_ios<char, std::char_traits<char> >::operator bool() const [1] _fu33___ZSt4cout
