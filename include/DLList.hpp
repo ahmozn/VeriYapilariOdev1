@@ -34,11 +34,11 @@ class DLList{
         bool genEkle(int index_g, char deger);              //son kromozoma gen ekle
         bool genEkle(int satir, int index_g, char deger);   //gen ekleme 
         bool g_printList(int satir);                        //listeyi yazdirma
-        
+
         //dökümanda belirtilen fonksiyonlar
         bool caprazla(int satir1, int satir2);              //caprazlama
         bool genMutasyon(int satir, int sutun);             //mutasyona ugratma
-        void otomatikIslemler();
+        void otomatikIslemler();                            //otomatik işlemler
         void ekranaYaz();                                   //ekrana yazdirma
 
         ~DLList();
