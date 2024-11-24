@@ -488,10 +488,13 @@ DLList::~DLList(){
                 g_nextNode=g_current->next;
                 delete g_current; //gen serbest birakma
                 g_current=g_nextNode;
+                k_current->genDLL->g_dll_head=g_current;
             }
         }
         k_nextNode=k_current->next;
         delete k_current; //kromozom serbest birakma
         k_current=k_nextNode;
+        k_dll_head=k_current;
     }
+    std::cout<<"Liste basariyla silindi.\n"<<std::endl;
 }
