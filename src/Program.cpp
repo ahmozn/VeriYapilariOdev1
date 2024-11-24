@@ -25,7 +25,7 @@ int main() {
 
     system("CLS");
     
-    auto start=chrono::high_resolution_clock::now(); //okuma süresi hesaplayici
+    auto start=chrono::high_resolution_clock::now(); //okuma ekleme süresi hesaplayici
     cout<<"Dna.txt okunuyor..."<<endl;
 
     int i=0;
@@ -50,7 +50,7 @@ int main() {
 
     auto end=chrono::high_resolution_clock::now();
     auto duration=chrono::duration_cast<chrono::milliseconds>(end-start);
-    cout<<duration.count()<<" ms"<<endl; //okuma işlemi ne kadar sürdü
+    cout<<duration.count()<<" ms"<<endl; //okuma ekleme işlemi ne kadar sürdü
     fileDna.close();    //Dna.txt kapatıldı
 
     char komut;
@@ -115,6 +115,7 @@ int main() {
     cout<<"Bellek serbest birakiliyor..."<<endl;
     cout<<"..."<<endl;
     kromozomlar->~DLList();
-    cout<<"Program basarili sekilde sonlandi."<<endl;
+
+    cout<<"!---Program basarili sekilde sonlandi.---!"<<endl;
     return 0;
 }
